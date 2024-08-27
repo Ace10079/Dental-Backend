@@ -5,7 +5,6 @@ exports.createAdmin = async (req, res, next) => {
     try {
         const { admin_name, email, password } = req.body;
         const admin_id = await IdcodeServices.generateCode("Admin");
-        // Create admin with password
         const admin = await AdminService.createAdmin({ admin_id, admin_name, email, password });
 
         // Response with admin data (including password)
