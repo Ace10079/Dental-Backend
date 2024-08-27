@@ -1,11 +1,14 @@
 const DentistService = require('../Service/dentistService');
+const IdcodeServices=require('../Service/idcodeService')
+const bcrypt = require('bcrypt');
+
 
 // Create dentist controller
 exports.createDentist = async (req, res, next) => {
     try {
-        const {dentist_id, dentist_name, phone, email } = req.body;
-      
-        const dentist = await DentistService.createDentist({ dentist_id, dentist_name, phone, email });
+        const { dentist_name, phone, email, password } = req.body;
+        const dentist_id = await IdcodeServices.generateCode("Dentist");
+        const dentist = await DentistService.createDentist({ dentist_id, dentist_name, phone, email, password });
         
         res.status(200).json({
             status: true,
@@ -79,6 +82,30 @@ exports.updateDentistById = async (req, res, next) => {
             status: true,
             message: "Dentist updated successfully",
             data: updatedDentist
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+exports.login = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+        const dentist = await DentistService.getDentistById(email); // Assuming email is used as the unique identifier
+
+        if (!dentist) {
+            return res.status(401).json({ message: 'Dentist not found' });
+        }
+
+        const isMatch = await bcrypt.compare(password, dentist.password);
+
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid password' });
+        }
+
+        res.status(200).json({
+            status: true,
+            message: 'Login successful',
+            data: { dentist_id: dentist.dentist_id, dentist_name: dentist.dentist_name, email: dentist.email }
         });
     } catch (error) {
         next(error);

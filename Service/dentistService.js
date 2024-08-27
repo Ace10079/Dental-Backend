@@ -5,6 +5,7 @@ exports.createDentist = async (dentistData) => {
     return await dentist.save();
 };
 
+
 exports.getAllDentists = async () => {
     return await DentistModel.find();
 };

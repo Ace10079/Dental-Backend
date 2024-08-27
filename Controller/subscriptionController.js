@@ -1,8 +1,9 @@
 const SubscriptionService = require('../Service/subscriptionService');
-
+const IdcodeServices=require('../Service/idcodeService')
 exports.createSubscription = async (req, res, next) => {
     try {
-        const { customer_id, customer_name, status, transaction_id, transaction_status } = req.body;
+        const { customer_name, status, transaction_id, transaction_status } = req.body;
+        const customer_id = await IdcodeServices.generateCode("Customer");
         const subscription = await SubscriptionService.createSubscription({ customer_id, customer_name, status, transaction_id, transaction_status });
         
         res.status(200).json({

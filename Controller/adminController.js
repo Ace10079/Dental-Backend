@@ -1,10 +1,10 @@
 const AdminService = require('../Service/adminService');
-
+const IdcodeServices=require('../Service/idcodeService')
 // Create dentist controller
 exports.createAdmin = async (req, res, next) => {
     try {
-        const { admin_id, admin_name, email, password } = req.body;
-        
+        const { admin_name, email, password } = req.body;
+        const admin_id = await IdcodeServices.generateCode("Admin");
         // Create admin with password
         const admin = await AdminService.createAdmin({ admin_id, admin_name, email, password });
 
