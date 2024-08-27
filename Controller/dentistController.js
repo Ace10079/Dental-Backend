@@ -108,7 +108,7 @@ exports.login = async (req, res, next) => {
         res.status(200).json({
             status: true,
             message: 'Login successful',
-            data: { dentist_id: dentist.dentist_id, dentist_name: dentist.dentist_name, email: dentist.email }
+            data: { dentist_id: dentist.dentist_id, dentist_name: dentist.dentist_name, email: dentist.email,phone:dentist.phone }
         });
     } catch (error) {
         next(error);
