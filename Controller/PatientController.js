@@ -1,7 +1,4 @@
-// controllers/PatientController.js
-
 const PatientService = require('../Service/PatientService');
-
 exports.registerPatient = async (req, res, next) => {
     try {
         const { patient_name, tooth_number, gender, age, phone_number } = req.body;
