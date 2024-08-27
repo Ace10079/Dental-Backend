@@ -12,10 +12,16 @@ const DentistSchema = new Schema({
 }, { timestamps: true });
 
 DentistSchema.pre('save', async function(next) {
-    if (this.isModified('password')) {
-        this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
+    const user = this;
+    if (!user.isModified('password')) return next();
+
+    try {
+        const hash = await bcrypt.hash(user.password, 10);
+        user.password = hash;
+        next();
+    } catch (error) {
+        return next(error);
     }
-    next();
 });
 
 const DentistModel = db.model('Dentist', DentistSchema);

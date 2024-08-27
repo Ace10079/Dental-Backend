@@ -20,3 +20,6 @@ exports.deleteDentistById = async (dentist_id) => {
 exports.updateDentistById = async (dentist_id, updateData) => {
     return await DentistModel.findOneAndUpdate({ dentist_id }, updateData, { new: true });
 };
+exports.login = async (email) => {
+    return await DentistModel.findOne({ email });
+};

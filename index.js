@@ -13,7 +13,7 @@ app.use(cors());
 
 // Middleware to parse JSON
 app.use(express.json());
-
+app.use('/uploads', express.static('uploads'));
 // Define routes
 app.use('/dentist', DentistRouter);
 app.use('/admin', AdminRouter);
