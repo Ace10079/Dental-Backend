@@ -19,3 +19,6 @@ exports.updateAdminById = async (admin_id, updateData) => {
     }
     return await AdminModel.findOneAndUpdate({ admin_id }, updateData, { new: true });
 };
+exports.getAdminByEmail = async (email) => {
+    return await AdminModel.findOne({ email });
+};

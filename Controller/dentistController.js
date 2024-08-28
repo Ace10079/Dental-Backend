@@ -5,10 +5,10 @@ const bcrypt = require('bcrypt');
 // Create dentist controller
 exports.createDentist = async (req, res, next) => {
     try {
-        const {dentist_name, phone, email, password } = req.body;
+        const {dentist_name,dentist_reg_number, phone, email, password } = req.body;
         const dentist_id = await IdcodeServices.generateCode("Dentist");
       
-        const dentist = await DentistService.createDentist({ dentist_id, dentist_name, phone, email, password });
+        const dentist = await DentistService.createDentist({ dentist_id, dentist_name,dentist_reg_number, phone, email, password });
         
         res.status(200).json({
             status: true,

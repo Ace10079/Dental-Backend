@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const DentistSchema = new Schema({
     dentist_id: String,
-    dentist_number:String,
+    dentist_reg_number:String,
     dentist_name: String,
     phone: String,
     email: String,

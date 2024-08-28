@@ -1,6 +1,37 @@
 const AdminService = require('../Service/adminService');
 const IdcodeServices=require('../Service/idcodeService')
-// Create dentist controller
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken'); // Use JWT for generating tokens
+
+// Login admin
+exports.loginAdmin = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+        
+        // Find admin by email
+        const admin = await AdminService.getAdminByEmail(email);
+        if (!admin) {
+            return res.status(404).json({ status: false, message: "Admin not found" });
+        }
+        
+        // Check password
+        const isMatch = await bcrypt.compare(password, admin.password);
+        if (!isMatch) {
+            return res.status(400).json({ status: false, message: "Invalid credentials" });
+        }
+        
+        // Generate token
+        const token = jwt.sign({ admin_id: admin.admin_id }, 'Dental', { expiresIn: '1h' });
+        
+        res.status(200).json({
+            status: true,
+            message: "Login successful",
+            token // Include token in the response
+        });
+    } catch (error) {
+        next(error);
+    }
+};
 exports.createAdmin = async (req, res, next) => {
     try {
         const { admin_name, email, password } = req.body;
