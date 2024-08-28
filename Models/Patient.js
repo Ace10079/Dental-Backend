@@ -37,6 +37,9 @@ const PatientSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    dentist_id:{
+        type:String
+    }
 }, { timestamps: true });
 
 const PatientModel = db.model('Patient', PatientSchema);

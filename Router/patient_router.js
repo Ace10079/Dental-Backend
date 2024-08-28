@@ -19,5 +19,6 @@ router.put('/update', upload, PatientController.updatePatient);
 router.delete('/delete', PatientController.deletePatient);
 router.get('/all', PatientController.getAllPatients);
 router.get('/get', PatientController.getPatientById);
+router.get('/get/dentist',PatientController.getPatientByDentistId);
 
 module.exports = router;

@@ -1,13 +1,13 @@
 const PatientService = require('../Service/PatientService');
 exports.registerPatient = async (req, res, next) => {
     try {
-        const { patient_name, tooth_number, gender, age, phone_number } = req.body;
+        const { patient_name, tooth_number, gender, age, phone_number,dentist_id } = req.body;
         if (!req.file || !req.file.filename) {
             return res.status(400).json({ status: false, message: "No file uploaded" });
         }
         const imageFilename = req.file.filename;
         const patient = await PatientService.registerPatient(
-            { patient_name, tooth_number, gender, age, phone_number },
+            { patient_name, tooth_number, gender, age, phone_number,dentist_id },
             imageFilename
         );
         res.status(201).json({ status: true, message: "Patient registered successfully", data: patient });
@@ -59,6 +59,18 @@ exports.getPatientById = async (req, res, next) => {
     try {
         const { patient_id } = req.query;
         const patient = await PatientService.getPatientById(patient_id);
+        if (!patient) {
+            return res.status(404).json({ status: false, message: "Patient not found" });
+        }
+        res.status(200).json({ status: true, message: "Patient retrieved successfully", data: patient });
+    } catch (error) {
+        next(error);
+    }
+};
+exports.getPatientByDentistId = async (req, res, next) => {
+    try {
+        const { dentist_id } = req.query;
+        const patient = await PatientService.getPatientByDentistId(dentist_id);
         if (!patient) {
             return res.status(404).json({ status: false, message: "Patient not found" });
         }

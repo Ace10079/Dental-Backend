@@ -21,6 +21,13 @@ class PatientService {
             throw error;
         }
     }
+    static async getPatientByDentistId(dentist_id) {
+        try {
+            return await PatientModel.findOne({ dentist_id });
+        } catch (error) {
+            throw error;
+        }
+    }
 
     static async getAllPatients() {
         try {
