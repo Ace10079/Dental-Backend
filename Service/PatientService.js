@@ -23,7 +23,7 @@ class PatientService {
     }
     static async getPatientByDentistId(dentist_id) {
         try {
-            return await PatientModel.findOne({ dentist_id });
+            return await PatientModel.find({ dentist_id });
         } catch (error) {
             throw error;
         }
