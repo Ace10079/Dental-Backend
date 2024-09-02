@@ -37,8 +37,26 @@ const PatientSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    dentist_id:{
-        type:String
+    dentist_id: {
+        type: String
+    },
+    class1: {
+        type: String
+    },
+    probability1: {
+        type: String
+    },
+    class2: {
+        type: String
+    },
+    probability2: {
+        type: String
+    },
+    class3: {
+        type: String
+    },
+    probability3: {
+        type: String
     }
 }, { timestamps: true });
 
