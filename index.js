@@ -9,7 +9,7 @@ const DentistRouter = require('./Router/dentist_router');
 const AdminRouter = require('./Router/admin_router');
 const SubscriptionRouter = require('./Router/subscription_router');
 const PatientRouter = require('./Router/patient_router');
-
+const SaveRouter = require('./Router/saveRoutes');
 // Apply CORS middleware before defining routes
 app.use(cors());
 
@@ -24,7 +24,7 @@ app.use('/dentist', DentistRouter);
 app.use('/admin', AdminRouter);
 app.use('/subscription', SubscriptionRouter);
 app.use('/patient', PatientRouter);
-
+app.use('/save', SaveRouter);
 // Basic route
 app.get('/', (req, res) => {
   res.send('Hello World!');
