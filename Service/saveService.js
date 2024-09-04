@@ -9,8 +9,8 @@ exports.getAllSaves = async () => {
     return await SaveModel.find();
 };
 
-exports.getSaveById = async (patient_id) => {
-    return await SaveModel.findOne({ patient_id });
+exports.getSaveById = async (dentist_id ) => {
+    return await SaveModel.find({ dentist_id  });
 };
 
 exports.deleteSaveById = async (patient_id) => {

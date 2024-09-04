@@ -3,9 +3,40 @@ const SaveService = require('../Service/saveService');
 // Create Save
 exports.createSave = async (req, res, next) => {
     try {
-        const { patient_id, image } = req.body;
-        const save = await SaveService.createSave({ patient_id, image });
-        
+        const {
+            patient_id,
+            patient_name,
+            tooth_number,
+            gender,
+            age,
+            phone_number,
+            image,
+            dentist_id,
+            class1,
+            probability1,
+            class2,
+            probability2,
+            class3,
+            probability3
+        } = req.body;
+
+        const save = await SaveService.createSave({
+            patient_id,
+            patient_name,
+            tooth_number,
+            gender,
+            age,
+            phone_number,
+            image,
+            dentist_id,
+            class1,
+            probability1,
+            class2,
+            probability2,
+            class3,
+            probability3
+        });
+
         res.status(200).json({
             status: true,
             message: "Save created successfully",
@@ -33,8 +64,8 @@ exports.getAllSaves = async (req, res, next) => {
 // Get Save by Patient ID
 exports.getSaveById = async (req, res, next) => {
     try {
-        const { patient_id } = req.query;
-        const save = await SaveService.getSaveById(patient_id);
+        const { dentist_id } = req.query;
+        const save = await SaveService.getSaveById(dentist_id );
         if (!save) {
             return res.status(404).json({ status: false, message: "Save not found" });
         }

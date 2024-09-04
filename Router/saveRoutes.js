@@ -4,7 +4,7 @@ const saveController = require('../Controller/savecontroller');
 
 router.post('/post', saveController.createSave);
 router.get('/get', saveController.getAllSaves);
-router.get('/getById', saveController.getSaveById);
+router.get('/getbyid/dentist', saveController.getSaveById);
 router.delete('/delete', saveController.deleteSaveById);
 router.put('/update', saveController.updateSaveById);
 
