@@ -5,10 +5,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const SaveSchema = new Schema({
-    patient_id: {
-        type: String,
-        required: true
-    },
+  
     patient_name: {
         type: String,
         required: true
