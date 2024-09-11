@@ -1,7 +1,7 @@
 const DentistService = require('../Service/dentistService');
 const IdcodeServices = require('../Service/idcodeService');
 const bcrypt = require('bcrypt');
-
+const crypto = require('crypto');
 // Create dentist controller
 exports.createDentist = async (req, res, next) => {
     try {
@@ -109,6 +109,57 @@ exports.login = async (req, res, next) => {
             status: true,
             message: 'Login successful',
             data: { dentist_id: dentist.dentist_id, dentist_name: dentist.dentist_name, email: dentist.email,phone:dentist.phone }
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+exports.forgotPassword = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        const dentist = await DentistService.login(email);
+
+        if (!dentist) {
+            return res.status(404).json({ message: 'Dentist not found' });
+        }
+
+        const resetToken = dentist.createPasswordResetToken();
+        await dentist.save();
+
+        const resetURL = `${req.protocol}://${req.get('host')}/api/dentists/resetPassword/${resetToken}`;
+
+        // You would send this resetURL to the user's email.
+        res.status(200).json({
+            status: true,
+            message: 'Password reset token sent to email!',
+            resetURL
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// Reset password using the token
+exports.resetPassword = async (req, res, next) => {
+    try {
+        const { token } = req.params;
+        const { password } = req.body;
+
+        const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+        const dentist = await DentistService.findDentistByResetToken(hashedToken);
+
+        if (!dentist) {
+            return res.status(400).json({ message: 'Token is invalid or has expired' });
+        }
+
+        dentist.password = password;  // The password will be hashed in the pre-save hook
+        dentist.passwordResetToken = undefined;
+        dentist.passwordResetExpires = undefined;
+        await dentist.save();
+
+        res.status(200).json({
+            status: true,
+            message: 'Password has been reset!'
         });
     } catch (error) {
         next(error);
