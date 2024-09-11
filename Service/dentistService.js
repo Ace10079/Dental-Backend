@@ -1,4 +1,4 @@
-const DentistModel = require('../models/dentist');
+const DentistModel = require('../Models/dentist');
 
 exports.createDentist = async (dentistData) => {
     const dentist = new DentistModel(dentistData);
