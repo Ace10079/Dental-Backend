@@ -116,8 +116,8 @@ exports.login = async (req, res, next) => {
 };
 exports.forgotPassword = async (req, res, next) => {
     try {
-        const { email } = req.body;
-        const dentist = await DentistService.login(email);
+        const { phone } = req.body;
+        const dentist = await DentistService.findDentistByPhone(phone);
 
         if (!dentist) {
             return res.status(404).json({ message: 'Dentist not found' });
@@ -126,12 +126,12 @@ exports.forgotPassword = async (req, res, next) => {
         const resetToken = dentist.createPasswordResetToken();
         await dentist.save();
 
-        const resetURL = `${req.protocol}://${req.get('host')}/api/dentists/resetPassword/${resetToken}`;
+        const resetURL = `${req.protocol}://${req.get('host')}/dentist/resetPassword/${resetToken}`;
 
-        // You would send this resetURL to the user's email.
+        // You would send this resetURL to the user's phone via SMS.
         res.status(200).json({
             status: true,
-            message: 'Password reset token sent to email!',
+            message: 'Password reset token sent to phone!',
             resetURL
         });
     } catch (error) {
@@ -139,7 +139,6 @@ exports.forgotPassword = async (req, res, next) => {
     }
 };
 
-// Reset password using the token
 exports.resetPassword = async (req, res, next) => {
     try {
         const { token } = req.params;

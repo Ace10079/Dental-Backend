@@ -31,3 +31,6 @@ exports.findDentistByResetToken = async (token) => {
         passwordResetExpires: { $gt: Date.now() }
     });
 };
+exports.findDentistByPhone = async (phone) => {
+    return await DentistModel.findOne({ phone });
+};
