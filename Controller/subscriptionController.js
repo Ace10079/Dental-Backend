@@ -1,11 +1,27 @@
 const SubscriptionService = require('../Service/subscriptionService');
-const IdcodeServices=require('../Service/idcodeService')
+const IdcodeServices = require('../Service/idcodeService');
+
+// Create a subscription
 exports.createSubscription = async (req, res, next) => {
     try {
-        const { customer_name, status, transaction_id, transaction_status } = req.body;
-        const customer_id = await IdcodeServices.generateCode("Customer");
-        const subscription = await SubscriptionService.createSubscription({ customer_id, customer_name, status, transaction_id, transaction_status });
+        const { customer_name, status, transaction_id, transaction_status, dentist_id } = req.body;
         
+        // Generate customer ID
+        const customer_id = await IdcodeServices.generateCode("Customer");
+
+        // Create subscription data
+        const subscriptionData = {
+            customer_id,
+            customer_name,
+            status,
+            transaction_id,
+            transaction_status,
+            dentist_id // Added dentist_id
+        };
+
+        // Call the service to create the subscription
+        const subscription = await SubscriptionService.createSubscription(subscriptionData);
+
         res.status(200).json({
             status: true,
             message: "Subscription created successfully",
@@ -16,6 +32,7 @@ exports.createSubscription = async (req, res, next) => {
     }
 };
 
+// Get all subscriptions
 exports.getAllSubscriptions = async (req, res, next) => {
     try {
         const subscriptions = await SubscriptionService.getAllSubscriptions();
@@ -29,13 +46,36 @@ exports.getAllSubscriptions = async (req, res, next) => {
     }
 };
 
+// Get subscriptions by dentist_id
+exports.getSubscriptionsByDentistId = async (req, res, next) => {
+    try {
+        const { dentist_id } = req.query;
+        const subscriptions = await SubscriptionService.getSubscriptionsByDentistId(dentist_id);
+
+        if (subscriptions.length === 0) {
+            return res.status(404).json({ status: false, message: "No subscriptions found for this dentist" });
+        }
+
+        res.status(200).json({
+            status: true,
+            message: "Subscriptions retrieved successfully",
+            data: subscriptions
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// Delete a subscription by customer_id
 exports.deleteSubscriptionById = async (req, res, next) => {
     try {
         const { customer_id } = req.query;
         const result = await SubscriptionService.deleteSubscriptionById(customer_id);
+        
         if (!result) {
             return res.status(404).json({ status: false, message: "Subscription not found" });
         }
+
         res.status(200).json({
             status: true,
             message: "Subscription deleted successfully"
@@ -45,6 +85,7 @@ exports.deleteSubscriptionById = async (req, res, next) => {
     }
 };
 
+// Update a subscription by customer_id
 exports.updateSubscriptionById = async (req, res, next) => {
     try {
         const { customer_id } = req.query;

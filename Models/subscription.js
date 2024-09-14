@@ -8,6 +8,11 @@ const SubscriptionSchema = new Schema({
     status: String,
     transaction_id: String,
     transaction_status: String,
+    dentist_id: String, // Added dentist_id
+    expiry_date: {
+        type: Date,
+        required: true,
+    },
 }, { timestamps: true });
 
 const SubscriptionModel = db.model('Subscription', SubscriptionSchema);

@@ -10,6 +10,7 @@ const AdminRouter = require('./Router/admin_router');
 const SubscriptionRouter = require('./Router/subscription_router');
 const PatientRouter = require('./Router/patient_router');
 const SaveRouter = require('./Router/saveRoutes');
+const TransactionRouter=require('./Router/subscription_router')
 // Apply CORS middleware before defining routes
 app.use(cors());
 
@@ -25,6 +26,7 @@ app.use('/admin', AdminRouter);
 app.use('/subscription', SubscriptionRouter);
 app.use('/patient', PatientRouter);
 app.use('/save', SaveRouter);
+app.use('/transaction',TransactionRouter)
 // Basic route
 app.get('/', (req, res) => {
   res.send('Hello World!');
