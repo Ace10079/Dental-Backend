@@ -80,10 +80,11 @@ exports.getSaveById = async (req, res, next) => {
 };
 
 // Delete Save by Patient ID
+// Delete Save by _id
 exports.deleteSaveById = async (req, res, next) => {
     try {
-        const { dentist_id } = req.query;
-        const result = await SaveService.deleteSaveById(dentist_id);
+        const { _id } = req.query;
+        const result = await SaveService.deleteSaveById(_id);
         if (!result) {
             return res.status(404).json({ status: false, message: "Save not found" });
         }
@@ -95,6 +96,7 @@ exports.deleteSaveById = async (req, res, next) => {
         next(error);
     }
 };
+
 
 // Update Save by Patient ID
 exports.updateSaveById = async (req, res, next) => {
