@@ -10,7 +10,7 @@ const ProfileSchema = new Schema({
     },
     img: {
         type: String, // filename for multer
-        required: true
+        
     },
     date: {
         type: Date,

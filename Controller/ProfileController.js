@@ -2,15 +2,9 @@ const ProfileService = require('../Service/ProfileService');
 
 exports.createProfile = async (req, res, next) => {
     try {
-        const { dentist_id } = req.body;
+        const { dentist_id,img } = req.body;
 
-        if (!req.file || !req.file.filename) {
-            return res.status(400).json({ status: false, message: "No file uploaded" });
-        }
-
-        const imgFilename = req.file.filename;
-
-        const profile = await ProfileService.createProfile({ dentist_id }, imgFilename);
+        const profile = await ProfileService.createProfile({ dentist_id,img });
 
         res.status(201).json({ status: true, message: "Profile created successfully", data: profile });
     } catch (error) {
