@@ -5,11 +5,7 @@ const IdcodeServices = require('../Service/idcodeService');
 exports.createSubscription = async (req, res, next) => {
     try {
         const { customer_name, status, transaction_id, transaction_status, dentist_id } = req.body;
-        
-        // Generate customer ID
         const customer_id = await IdcodeServices.generateCode("Customer");
-
-        // Create subscription data
         const subscriptionData = {
             customer_id,
             customer_name,
