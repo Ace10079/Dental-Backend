@@ -12,6 +12,7 @@ const PatientRouter = require('./Router/patient_router');
 const SaveRouter = require('./Router/saveRoutes');
 const TransactionRouter=require('./Router/subscription_router')
 const TrialRouter=require('./Router/trialRoutes')
+const ProfileRouter=require('./Router/ProfileRoutes')
 // Apply CORS middleware before defining routes
 app.use(cors());
 
@@ -29,6 +30,7 @@ app.use('/patient', PatientRouter);
 app.use('/save', SaveRouter);
 app.use('/transaction',TransactionRouter)
 app.use('/trial',TrialRouter)
+app.use('/profile',ProfileRouter)
 // Basic route
 app.get('/', (req, res) => {
   res.send('Hello World!');
