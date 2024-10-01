@@ -7,5 +7,5 @@ router.get('/get', saveController.getAllSaves);
 router.get('/getbyid/dentist', saveController.getSaveById);
 router.delete('/delete', saveController.deleteSaveById);
 router.put('/update', saveController.updateSaveById);
-
+router.delete('/deletebypatientid',saveController.deleteSaveByPatientId)
 module.exports = router;

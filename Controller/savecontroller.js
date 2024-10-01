@@ -4,7 +4,7 @@ const SaveService = require('../Service/saveService');
 exports.createSave = async (req, res, next) => {
     try {
         const {
-           
+            patient_id,
             patient_name,
             tooth_number,
             gender,
@@ -21,7 +21,7 @@ exports.createSave = async (req, res, next) => {
         } = req.body;
 
         const save = await SaveService.createSave({
-         
+            patient_id,
             patient_name,
             tooth_number,
             gender,
@@ -113,6 +113,21 @@ exports.updateSaveById = async (req, res, next) => {
             status: true,
             message: "Save updated successfully",
             data: updatedSave
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+exports.deleteSaveByPatientId = async (req, res, next) => {
+    try {
+        const { patient_id } = req.query;
+        const result = await SaveService.deleteSaveById(patient_id);
+        if (!result) {
+            return res.status(404).json({ status: false, message: "Save not found" });
+        }
+        res.status(200).json({
+            status: true,
+            message: "Save deleted successfully"
         });
     } catch (error) {
         next(error);

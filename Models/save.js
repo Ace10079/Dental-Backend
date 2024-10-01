@@ -10,6 +10,9 @@ const SaveSchema = new Schema({
         type: String,
         required: true
     },
+    patient_id:{
+        type:String
+    },
     tooth_number: {
         type: String,
         required: true
