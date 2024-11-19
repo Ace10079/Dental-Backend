@@ -3,16 +3,19 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const db = require('../Config/db');
-const DentistSchema = new Schema({
-    dentist_id: String,
-    dentist_reg_number: String,
-    dentist_name: String,
-    phone: String,
-    email: String,
-    password: { type: String, required: true },
-    passwordResetToken: String,
-    passwordResetExpires: Date,
-}, { timestamps: true });
+const DentistSchema = new Schema(
+    {
+        dentist_id: String,
+        dentist_reg_number: String,
+        dentist_name: String,
+        phone: { type: String, unique: true, required: true }, // Ensures unique phone numbers
+        email: { type: String, unique: true, required: true }, // Ensures unique emails
+        password: { type: String, required: true },
+        passwordResetToken: String,
+        passwordResetExpires: Date,
+    },
+    { timestamps: true }
+);
 
 // Hash the password before saving the dentist
 DentistSchema.pre('save', async function(next) {
