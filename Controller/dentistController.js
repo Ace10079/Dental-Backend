@@ -5,20 +5,27 @@ const crypto = require('crypto');
 // Create dentist controller
 exports.createDentist = async (req, res, next) => {
     try {
-        const {dentist_name,dentist_reg_number, phone, email, password } = req.body;
+        const { dentist_name, dentist_reg_number, phone, email, password } = req.body;
         const dentist_id = await IdcodeServices.generateCode("Dentist");
-      
-        const dentist = await DentistService.createDentist({ dentist_id, dentist_name,dentist_reg_number, phone, email, password });
-        
+
+        const dentist = await DentistService.createDentist({ dentist_id, dentist_name, dentist_reg_number, phone, email, password });
+
         res.status(200).json({
             status: true,
             message: "Dentist created successfully",
             data: dentist
         });
     } catch (error) {
+        if (error.message.includes('already exists')) {
+            return res.status(409).json({
+                status: false,
+                message: error.message
+            });
+        }
         next(error);
     }
 };
+
 
 exports.getAllDentists = async (req, res, next) => {
     try {

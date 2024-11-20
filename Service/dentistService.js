@@ -1,9 +1,24 @@
 const DentistModel = require('../Models/dentist');
 
 exports.createDentist = async (dentistData) => {
+    // Check for existing dentist with the same email or phone
+    const existingDentist = await DentistModel.findOne({
+        $or: [
+            { email: dentistData.email },
+            { phone: dentistData.phone }
+        ]
+    });
+
+    if (existingDentist) {
+        const duplicateField = existingDentist.email === dentistData.email ? 'email' : 'phone';
+        throw new Error(`Dentist with the same ${duplicateField} already exists.`);
+    }
+
+    // Create a new dentist if no duplicate found
     const dentist = new DentistModel(dentistData);
     return await dentist.save();
 };
+
 
 exports.getAllDentists = async () => {
     return await DentistModel.find();
