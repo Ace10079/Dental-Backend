@@ -120,8 +120,8 @@ exports.updateSaveById = async (req, res, next) => {
 };
 exports.deleteSaveByPatientId = async (req, res, next) => {
     try {
-        const { patient_id } = req.query;
-        const result = await SaveService.deleteSaveById(patient_id);
+        const { patient_id } = req.query; // Assuming patient_id is sent as a query parameter
+        const result = await SaveService.deleteSaveByPatientId(patient_id);
         if (!result) {
             return res.status(404).json({ status: false, message: "Save not found" });
         }

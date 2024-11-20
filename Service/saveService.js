@@ -21,6 +21,6 @@ exports.deleteSaveById = async (_id) => {
 exports.updateSaveById = async (patient_id, updateData) => {
     return await SaveModel.findOneAndUpdate({ patient_id }, updateData, { new: true });
 };
-exports.deleteSaveByPatientId= async (patient_id) => {
-    return await SaveModel.findByIdAndDelete(patient_id);
+exports.deleteSaveByPatientId = async (patient_id) => {
+    return await SaveModel.findOneAndDelete({ patient_id }); // Use patient_id instead of _id
 };
