@@ -2,8 +2,8 @@ const FeedbackService = require('../Service/FeedbackService');
 
 exports.createFeedback = async (req, res, next) => {
     try {
-        const { response, comment } = req.body;
-        const feedback = await FeedbackService.createFeedback({ response, comment });
+        const { dentist_reg_number,dentist_name, response, comment } = req.body;
+        const feedback = await FeedbackService.createFeedback({ dentist_reg_number,dentist_name, response, comment });
 
         res.status(201).json({ status: true, message: "Feedback created successfully", data: feedback });
     } catch (error) {
