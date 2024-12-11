@@ -14,6 +14,10 @@ const FeedbackSchema = new Schema({
         type: String,
         required: false
     },
+    phone:{
+        type:String
+        
+    },
     date: {
         type: Date,
         default: Date.now
