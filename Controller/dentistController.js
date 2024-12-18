@@ -115,7 +115,7 @@ exports.login = async (req, res, next) => {
         res.status(200).json({
             status: true,
             message: 'Login successful',
-            data: { dentist_id: dentist.dentist_id, dentist_name: dentist.dentist_name, email: dentist.email,phone:dentist.phone,reg_number:dentist.dentist_reg_number }
+            data: { dentist_id: dentist.dentist_id, dentist_name: dentist.dentist_name, email: dentist.email,phone:dentist.phone,dentist_reg_number:dentist.dentist_reg_number }
         });
     } catch (error) {
         next(error);
@@ -170,4 +170,20 @@ exports.resetPassword = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+};
+
+
+exports.updatePasswordByEmail = async (req, res, next) => {
+  try {
+    const { email, newPassword } = req.body;
+
+    await DentistService.updatePasswordByEmail(email, newPassword);
+
+    res.status(200).json({
+      status: true,
+      message: 'Password updated successfully',
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
