@@ -12,6 +12,7 @@ router.put('/update', dentistController.updateDentistById);
 // New routes for forgot password and reset password
 router.post('/forgotPassword', dentistController.forgotPassword);
 router.post('/resetPassword/:token', dentistController.resetPassword);
-router.put('/updatePassword', dentistController.updatePasswordByEmail);
+router.post('/updatePassword', dentistController.updatePassword);
+
 
 module.exports = router;

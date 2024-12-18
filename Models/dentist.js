@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const db = require('../Config/db');
+
 const DentistSchema = new Schema(
     {
         dentist_id: String,
@@ -20,8 +21,10 @@ const DentistSchema = new Schema(
 // Hash the password before saving the dentist
 DentistSchema.pre('save', async function(next) {
     const dentist = this;
+    
+    // Ensure password is hashed only if it’s modified
     if (!dentist.isModified('password')) return next();
-
+    
     try {
         const hash = await bcrypt.hash(dentist.password, 10);
         dentist.password = hash;
