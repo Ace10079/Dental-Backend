@@ -14,6 +14,7 @@ const TransactionRouter=require('./Router/subscription_router')
 const TrialRouter=require('./Router/trialRoutes')
 const ProfileRouter=require('./Router/ProfileRoutes')
 const FeedbackRouter=require('./Router/feedback_router')
+const SupportRouter=require('./Router/support_router')
 // Apply CORS middleware before defining routes
 app.use(cors());
 
@@ -33,6 +34,7 @@ app.use('/transaction',TransactionRouter)
 app.use('/trial',TrialRouter)
 app.use('/profile',ProfileRouter)
 app.use('/feedback',FeedbackRouter)
+app.use('/support',SupportRouter)
 // Basic route
 app.get('/', (req, res) => {
   res.send('Hello World!');
