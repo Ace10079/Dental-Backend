@@ -12,11 +12,17 @@ const storage = multer.diskStorage({
     },
 });
 
-// Define routes
-const upload = multer({ storage: storage }).single('attachment');
+// Max 2 files
+const upload = multer({ 
+    storage: storage,
+    limits: { files: 2 }
+}).array('attachment', 2); // Accepting up to 2 files
+
+// Update the routes to handle multiple file uploads
 router.post('/post', upload, SupportController.createSupportTicket);
 router.put('/update', upload, SupportController.updateSupportTicket);
 router.delete('/delete', SupportController.deleteSupportTicket);
 router.get('/all', SupportController.getAllSupportTickets);
 router.get('/get', SupportController.getSupportTicketByNo);
+router.get('/by-dentist', SupportController.getSupportTicketsByDentistId);
 module.exports = router;

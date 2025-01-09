@@ -9,10 +9,6 @@ exports.createTicket = async (supportData) => {
         throw new Error('Support ticket with this ticket_no already exists.');
     }
 
-    // Generate unique ticket_no using IdcodeServices
-    const ticket_no = await IdcodeServices.generateCode('Support');
-    supportData.ticket_no = ticket_no;
-
     const supportTicket = new SupportModel(supportData);
     return await supportTicket.save();
 };
@@ -39,4 +35,7 @@ exports.updateTicketByNo = async (ticket_no, updateData) => {
 // Delete Ticket by Ticket No
 exports.deleteTicketByNo = async (ticket_no) => {
     return await SupportModel.findOneAndDelete({ ticket_no });
+};
+exports.getTicketsByDentistId = async (dentist_id) => {
+    return await SupportModel.find({ dentist_id }); // Query tickets by dentist_id
 };
