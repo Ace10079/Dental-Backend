@@ -25,4 +25,5 @@ router.delete('/delete', SupportController.deleteSupportTicket);
 router.get('/all', SupportController.getAllSupportTickets);
 router.get('/get', SupportController.getSupportTicketByNo);
 router.get('/by-dentist', SupportController.getSupportTicketsByDentistId);
+router.post('/reply', SupportController.sendReply);
 module.exports = router;

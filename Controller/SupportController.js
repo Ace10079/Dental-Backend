@@ -107,3 +107,19 @@ exports.getSupportTicketsByDentistId = async (req, res, next) => {
     }
 };
 
+exports.sendReply = async (req, res, next) => {
+    try {
+        const { ticket_no, reply } = req.body;
+
+        if (!ticket_no || !reply) {
+            return res.status(400).json({ status: false, message: "ticket_no and reply are required" });
+        }
+
+        // Directly save the reply without searching for the ticket
+        const replyData = await SupportService.createReply({ ticket_no, reply });
+
+        res.status(201).json({ status: true, message: "Reply saved successfully", data: replyData });
+    } catch (error) {
+        next(error);
+    }
+};

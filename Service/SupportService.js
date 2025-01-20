@@ -39,3 +39,8 @@ exports.deleteTicketByNo = async (ticket_no) => {
 exports.getTicketsByDentistId = async (dentist_id) => {
     return await SupportModel.find({ dentist_id }); // Query tickets by dentist_id
 };
+exports.createReply = async (replyData) => {
+    // Save the reply as a new document in the database
+    const replyEntry = new SupportModel(replyData); // Assuming `SupportModel` can handle replies
+    return await replyEntry.save();
+};
