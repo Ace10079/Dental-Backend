@@ -11,6 +11,7 @@ const PackageSchema = new Schema(
         offer: { type: Number, required: true },
         features: { type: [String], required: true },
         duration: { type: Number, required: true }, // Duration in months or days
+        expiry: { type: Date, required: true },
     },
     { timestamps: true }
 );
