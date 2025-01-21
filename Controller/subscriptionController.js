@@ -4,7 +4,7 @@ const IdcodeServices = require('../Service/idcodeService');
 // Create a subscription
 exports.createSubscription = async (req, res, next) => {
     try {
-        const { customer_name, status, transaction_id, transaction_status, dentist_id, package_name, duration } = req.body;
+        const { customer_name, status, transaction_id, transaction_status, dentist_id, package_name, duration ,amount} = req.body;
 
         // Validate required fields
         if (!customer_name || !status || !transaction_id || !transaction_status || !dentist_id || !package_name || !duration) {
@@ -25,7 +25,8 @@ exports.createSubscription = async (req, res, next) => {
             transaction_status,
             dentist_id,
             package_name,
-            duration
+            duration,
+            amount
         };
 
         // Call the service to create the subscription
