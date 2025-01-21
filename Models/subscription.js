@@ -9,6 +9,8 @@ const SubscriptionSchema = new Schema({
     transaction_id: String,
     transaction_status: String,
     dentist_id: String, 
+    package_name: String, // Added package_name
+    duration: Number, // Added duration (in months)
     expiry_date: {
         type: Date,
         required: true,

@@ -4,15 +4,28 @@ const IdcodeServices = require('../Service/idcodeService');
 // Create a subscription
 exports.createSubscription = async (req, res, next) => {
     try {
-        const { customer_name, status, transaction_id, transaction_status, dentist_id } = req.body;
+        const { customer_name, status, transaction_id, transaction_status, dentist_id, package_name, duration } = req.body;
+
+        // Validate required fields
+        if (!customer_name || !status || !transaction_id || !transaction_status || !dentist_id || !package_name || !duration) {
+            return res.status(400).json({ 
+                status: false, 
+                message: "All fields (customer_name, status, transaction_id, transaction_status, dentist_id, package_name, duration) are required." 
+            });
+        }
+
+        // Generate a unique customer_id
         const customer_id = await IdcodeServices.generateCode("Customer");
+
         const subscriptionData = {
             customer_id,
             customer_name,
             status,
             transaction_id,
             transaction_status,
-            dentist_id // Added dentist_id
+            dentist_id,
+            package_name,
+            duration
         };
 
         // Call the service to create the subscription
@@ -86,6 +99,7 @@ exports.updateSubscriptionById = async (req, res, next) => {
     try {
         const { customer_id } = req.query;
         const updateData = req.body;
+
         const updatedSubscription = await SubscriptionService.updateSubscriptionById(customer_id, updateData);
         
         if (!updatedSubscription) {
