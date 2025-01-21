@@ -16,6 +16,7 @@ const ProfileRouter=require('./Router/ProfileRoutes')
 const FeedbackRouter=require('./Router/feedback_router')
 const SupportRouter=require('./Router/support_router')
 const ReplyRouter=require('./Router/ReplyRouter')
+const PackageRouter=require('./Router/package_router')
 // Apply CORS middleware before defining routes
 app.use(cors());
 
@@ -37,6 +38,7 @@ app.use('/profile',ProfileRouter)
 app.use('/feedback',FeedbackRouter)
 app.use('/support',SupportRouter)
 app.use('/reply',ReplyRouter)
+app.use('/package',PackageRouter)
 // Basic route
 app.get('/', (req, res) => {
   res.send('Hello World!');
