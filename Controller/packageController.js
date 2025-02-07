@@ -137,3 +137,37 @@ exports.updatePackageByNo = async (req, res, next) => {
         });
     }
 };
+exports.deletePackageByNo = async (req, res, next) => {
+    try {
+        const { package_no } = req.query;
+
+        if (!package_no) {
+            return res.status(400).json({ 
+                status: false, 
+                message: "Package number (package_no) is required for deletion." 
+            });
+        }
+
+        const deletedPackage = await PackageService.deletePackageByNo(package_no);
+
+        if (!deletedPackage) {
+            return res.status(404).json({ 
+                status: false, 
+                message: "Package not found" 
+            });
+        }
+
+        res.status(200).json({
+            status: true,
+            message: "Package deleted successfully",
+            data: deletedPackage
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status: false,
+            message: "An error occurred while deleting the package.",
+            error: error.message
+        });
+    }
+};

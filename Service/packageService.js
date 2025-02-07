@@ -22,3 +22,6 @@ exports.getAllPackages = async () => {
 exports.updatePackageByNo = async (package_no, updateData) => {
     return await PackageModel.findOneAndUpdate({ package_no }, updateData, { new: true });
 };
+exports.deletePackageByNo = async (package_no) => {
+    return await PackageModel.findOneAndDelete({ package_no });
+};

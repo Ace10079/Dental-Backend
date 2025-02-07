@@ -6,5 +6,6 @@ router.post('/post', packageController.createPackage);
 router.get('/getByNo', packageController.getPackageByNo);
 router.get('/getAll', packageController.getAllPackages);
 router.put('/update', packageController.updatePackageByNo);
+router.delete('/delete', packageController.deletePackageByNo);
 
 module.exports = router;
