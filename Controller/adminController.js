@@ -8,30 +8,37 @@ exports.loginAdmin = async (req, res, next) => {
     try {
         const { email, password } = req.body;
         
-        // Find admin by email
         const admin = await AdminService.getAdminByEmail(email);
         if (!admin) {
             return res.status(404).json({ status: false, message: "Admin not found" });
         }
         
-        // Check password
+        console.log("Stored Hashed Password:", admin.password);
+        
         const isMatch = await bcrypt.compare(password, admin.password);
+        console.log("Password Match:", isMatch);
+        
         if (!isMatch) {
             return res.status(400).json({ status: false, message: "Invalid credentials" });
         }
         
-        // Generate token
         const token = jwt.sign({ admin_id: admin.admin_id }, 'Dental', { expiresIn: '1h' });
-        
+
         res.status(200).json({
             status: true,
             message: "Login successful",
-            token // Include token in the response
+            token,
+            admin_id: admin.admin_id,
+            admin_name: admin.admin_name,
+            email: admin.email  // Include this field
         });
     } catch (error) {
         next(error);
     }
 };
+
+
+
 exports.createAdmin = async (req, res, next) => {
     try {
         const { admin_name, email, password } = req.body;
@@ -83,21 +90,62 @@ exports.deleteAdminById = async (req, res, next) => {
         next(error);
     }
 };
+
 exports.updateAdminById = async (req, res, next) => {
     try {
         const { admin_id } = req.query;
         const updateData = req.body;
+
+        if (updateData.password) {
+            updateData.password = await bcrypt.hash(updateData.password, 10);
+        }
+
         const updatedAdmin = await AdminService.updateAdminById(admin_id, updateData);
-        
+
         if (!updatedAdmin) {
             return res.status(404).json({ status: false, message: "Admin not found" });
         }
-        
+
         res.status(200).json({
             status: true,
             message: "Admin updated successfully",
             data: updatedAdmin
         });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.updatePassword = async (req, res, next) => {
+    try {
+        const { admin_name, email, old_password, new_password } = req.body;
+
+        // Fetch the admin by email
+        const admin = await AdminService.getAdminByEmail(email);
+        if (!admin) {
+            return res.status(404).json({ status: false, message: "Admin not found" });
+        }
+
+        // Verify the old password
+        const isMatch = await bcrypt.compare(old_password, admin.password);
+        if (!isMatch) {
+            return res.status(400).json({ status: false, message: "Old password is incorrect" });
+        }
+
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(new_password, 10);
+        
+        // Update the password in the database
+        await AdminService.updateAdmin(email, {
+            password: hashedPassword,
+            updatedAt: new Date() // Optional: update timestamp
+        });
+
+        res.status(200).json({
+            status: true,
+            message: "Password updated successfully"
+        });
+
     } catch (error) {
         next(error);
     }
